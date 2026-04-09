@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Live{% endblock %}
+
+{% block content %}
+<h1>Live camera</h1>
+
+<div class="live-wrapper">
+    <img class="fluid-img live-feed" src="{{ url_for('camera_feed') }}" alt="Live camera feed">
+
+    <button id="takePicBtn">Take Picture</button>
+
+    <h2>Last taken picture</h2>
+    <img
+        id="savedImage"
+        class="fluid-img"
+        src="{{ url_for('static', filename='img/image.jpg') }}?t={{ range(1, 999999) | random }}"
+        alt="Saved picture"
+    >
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const takePicBtn = document.getElementById("takePicBtn");
+    const savedImage = document.getElementById("savedImage");
+
+    takePicBtn.addEventListener("click", function () {
+        fetch("/take_pic")
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "ok") {
+                    savedImage.src = "{{ url_for('static', filename='img/image.jpg') }}?t=" + new Date().getTime();
+                }
+            })
+            .catch(error => console.error("Error:", error));
+    });
+});
+</script>
+{% endblock %}
