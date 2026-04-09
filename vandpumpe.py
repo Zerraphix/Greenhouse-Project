@@ -22,15 +22,15 @@ pump_aktiv = False  # Holder styr på state
 try:
     while True:
         humidity = adc.read_percent()
-        print(f"Fugtighed: {humidity:.1f}%")
+        print(f"Fugtighed: {humidity}%")
 
         if humidity < 10 and not pump_running:
-            print("→ Starter pumpe")
+            print("Starter pumpe")
             start_pump()
             pump_aktiv = True
 
         elif humidity > 60 and pump_running:
-            print("→ Stopper pumpe")
+            print("Stopper pumpe")
             stop_pump()
             pump_aktiv = False
 
