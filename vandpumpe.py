@@ -24,12 +24,12 @@ try:
         humidity = adc.read_percent()
         print(f"Fugtighed: {humidity}%")
 
-        if humidity < 10 and not pump_running:
+        if humidity < 10 and not pump_aktiv:
             print("Starter pumpe")
             start_pump()
             pump_aktiv = True
 
-        elif humidity > 60 and pump_running:
+        elif humidity > 60 and pump_aktiv:
             print("Stopper pumpe")
             stop_pump()
             pump_aktiv = False
