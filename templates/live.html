@@ -11,28 +11,48 @@
     <button id="takePicBtn">Take Picture</button>
 
     <h2>Last taken picture</h2>
-    <img
-        id="savedImage"
-        class="fluid-img"
-        src="{{ url_for('static', filename='img/image.jpg') }}?t={{ range(1, 999999) | random }}"
-        alt="Saved picture"
-    >
+
+    {% if latest_image %}
+        <img
+            id="savedImage"
+            class="fluid-img"
+            src="{{ url_for('static', filename='img/' ~ latest_image) }}"
+            alt="Saved picture"
+        >
+        <p id="imageStatus">Last saved image: {{ latest_image }}</p>
+    {% else %}
+        <img
+            id="savedImage"
+            class="fluid-img d-none"
+            src=""
+            alt="Saved picture"
+        >
+        <p id="imageStatus">No picture taken yet.</p>
+    {% endif %}
 </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const takePicBtn = document.getElementById("takePicBtn");
     const savedImage = document.getElementById("savedImage");
+    const imageStatus = document.getElementById("imageStatus");
 
     takePicBtn.addEventListener("click", function () {
         fetch("/take_pic")
             .then(response => response.json())
             .then(data => {
                 if (data.status === "ok") {
-                    savedImage.src = "{{ url_for('static', filename='img/image.jpg') }}?t=" + new Date().getTime();
+                    savedImage.src = data.image_url + "?t=" + new Date().getTime();
+                    savedImage.classList.remove("d-none");
+                    imageStatus.textContent = "Last saved image: " + data.filename;
+                } else {
+                    imageStatus.textContent = data.message || "Camera is not available";
                 }
             })
-            .catch(error => console.error("Error:", error));
+            .catch(error => {
+                console.error("Error:", error);
+                imageStatus.textContent = "Could not take picture";
+            });
     });
 });
 </script>

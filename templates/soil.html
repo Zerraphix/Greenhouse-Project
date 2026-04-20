@@ -3,7 +3,19 @@
 {% block title %}Soil{% endblock %}
 
 {% block content %}
-<h1>Database dashboard</h1>
-<img class="fluid-img float-left" src='data:image/png;base64,{{soil_raw}}'/>
-<img class="fluid-img float-right" src='data:image/png;base64,{{soil_percent}}'/>
+<h1>Soil database</h1>
+
+{% if soil_raw %}
+    <h2>RAW values</h2>
+    <img class="img-fluid" src="data:image/png;base64,{{ soil_raw }}" alt="Soil raw graph">
+{% else %}
+    <p>RAW soil data is not available right now.</p>
+{% endif %}
+
+{% if soil_percent %}
+    <h2>Percent values</h2>
+    <img class="img-fluid" src="data:image/png;base64,{{ soil_percent }}" alt="Soil percent graph">
+{% else %}
+    <p>Soil percent data is not available right now.</p>
+{% endif %}
 {% endblock %}

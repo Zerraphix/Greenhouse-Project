@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Gallery{% endblock %}
+
+{% block content %}
+<h1>Gallery</h1>
+
+{% if images %}
+    <div class="container mt-4">
+        <div class="row">
+            {% for image in images %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img
+                            src="{{ url_for('static', filename='img/' ~ image) }}"
+                            class="card-img-top"
+                            alt="{{ image }}"
+                        >
+                        <div class="card-body">
+                            <p class="card-text">{{ image }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% else %}
+    <p>Der er ingen billeder i databasen endnu.</p>
+{% endif %}
+{% endblock %}

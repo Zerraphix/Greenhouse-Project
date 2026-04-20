@@ -3,7 +3,7 @@ import smbus
 class MCP3021:
     bus = smbus.SMBus(1)
     
-
+    
     def __init__(self, address = 0x4B):
         self.address = address
 
