@@ -1,13 +1,17 @@
-from gpiozero import LED
-from time import sleep
+import pigpio
+import time
 
-pump = LED(17) # Definerer PIN
+PIN = 17 # Vi angiver PIN som styrere GATE på MOSFET 
 
-def pump_on():
-    pump.on()
 
-def pump_off():
-    pump.off()
+pi = pigpio.pi()
+pi.set_mode(PIN, pigpio.OUTPUT)
+
+def start_pump(): # Definerer funktionen start_pump
+    pi.write(PIN, 1) # Vi bruger pi.write med argumenterne PIN(17) og 1 for at aktivere pumpen
+
+def stop_pump(): # Definerer funktionen stop_pump
+    pi.write(PIN, 0) # Her slukker vi for pumpen ved at give den en værdi på 0
 
 
 # Forneden er en test af pumpen
