@@ -3,10 +3,17 @@ from time import sleep
 
 pump = LED(17) # Definerer PIN
 
+def pump_on():
+    pump.on()
+
+def pump_off():
+    pump.off()
+
+
 # Forneden er en test af pumpen
 while True:
-    pump.on()
+    pump_on()
     sleep(3)
-    pump.off()
+    pump_off()
     sleep(20)
 
